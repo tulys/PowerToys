@@ -76,8 +76,6 @@ namespace monacoPreview
                 // Disable status bar
                 settings.IsStatusBarEnabled = false;
             }
-
-            File.Delete(fullCustomFilePath);
         }
 
         private void NavigationStarted(Object sender, CoreWebView2NavigationStartingEventArgs e)
@@ -106,8 +104,7 @@ namespace monacoPreview
             webView.Width = this.ActualWidth;
         }
 
-        string customFileName = "powerToysPreview" + Guid.NewGuid().ToString("N") + ".html";
-        string fullCustomFilePath;
+        const string VirtualHostName = "PowerToysLocalMonaco";
         public async void InitializeAsync(string fileName)
         {
             // This function initializes the webview settings
@@ -124,26 +121,14 @@ namespace monacoPreview
             html = html.Replace("[[PT_WRAP]]", settings.wrap ? "1" : "0");
             html = html.Replace("[[PT_THEME]]", settings.GetTheme(ThemeListener.AppMode));
             html = html.Replace("[[PT_CODE]]", base64FileCode);
-            File.WriteAllText(customFileName, html);
-            fullCustomFilePath = Path.Combine(AppContext.BaseDirectory, customFileName);
-            // Initialize WebView
-            //webView.Source = GetURLwithCode(base64FileCode, vsCodeLangSet);
-            webView.Source = new Uri(fullCustomFilePath);
-            await webView.EnsureCoreWebView2Async(await CoreWebView2Environment.CreateAsync());
+            html = html.Replace("[[PT_URL]]", VirtualHostName);
 
-            //webView.NavigateToString(html);
+            // Initialize WebView
+            await webView.EnsureCoreWebView2Async();
+            webView.CoreWebView2.SetVirtualHostNameToFolderMapping(VirtualHostName, AppDomain.CurrentDomain.BaseDirectory, CoreWebView2HostResourceAccessKind.DenyCors);
+            webView.NavigateToString(html);
             webView.NavigationCompleted += WebView2Init;
             webView.NavigationStarting += NavigationStarted;
-        }
-
-        public Uri GetURLwithCode(string code, string lang)
-        {
-            // This function returns a url you can use to access index.html
-
-            // Converts code to base64
-            code = HttpUtility.UrlEncode(code); // this is needed for URL encode;
-
-            return new Uri(settings.baseURL + "?code=" + code + "&lang=" + lang + "&theme=" + settings.GetTheme(ThemeListener.AppMode) + "&wrap=" + (settings.wrap ? "1" : "0"));
         }
     }
 } 

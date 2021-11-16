@@ -20,9 +20,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Toolkit.Uwp.UI" Version="6.1.1" />
+        <PackageReference Include="Microsoft.Toolkit.Uwp.UI" Version="7.1.1" />
         <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls" Version="6.1.2" />
-        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.705.50" />
+        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1020.30" />
         <PackageReference Include="WindowsThemeListener" Version="1.0.0" />
     </ItemGroup>
 
@@ -41,6 +41,9 @@
       <Compile Update="FileHandler.cs">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Compile>
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Update="Microsoft.VCRTForwarders.140" Version="1.0.7" />
     </ItemGroup>
 
 </Project>
