@@ -42,6 +42,7 @@ ALLOWUNDO
 ALPHATYPE
 Altdown
 altform
+alwaysontop
 amd
 Amicrosoft
 AModifier
