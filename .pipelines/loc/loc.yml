@@ -16,6 +16,7 @@ steps:
   clean: true
   submodules: false
   persistCredentials: true
+- powershell: 'mv src/settings-ui/Settings.UI src/settings-ui/Microsoft.PowerToys.Settings.UI'
 
 - task: MicrosoftTDBuild.tdbuild-task.tdbuild-task.TouchdownBuildTask@1
   displayName: 'Touchdown Build - 37400, PRODEXT'
